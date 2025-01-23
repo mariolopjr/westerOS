@@ -4,7 +4,7 @@ set ${SET_X:+-x} -eou pipefail
 
 echo "Running desktop packages scripts..."
 
-/ctx/desktop-1password.sh
+/tmp/desktop-1password.sh
 
 # ublue staging repo needed for ghostty, etc
 dnf5 -y copr enable ublue-os/staging
