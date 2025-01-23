@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/bazzite-nvidia:stable
+FROM ghcr.io/ublue-os/bazzite-gnome-nvidia:stable
 
 COPY build.sh /tmp/build.sh
 COPY desktop-1password.sh /tmp/desktop-1password.sh
@@ -9,4 +9,4 @@ RUN mkdir -p /var/lib/alternatives && \
     /tmp/build.sh && \
     ostree container commit && \
     bootc container lint
-    
+
