@@ -1,6 +1,6 @@
 ---
 name: Build westerOS ISOs
-on:
+on:  # yamllint disable-line rule:truthy
   workflow_dispatch:
     inputs:
       image_flavor:
@@ -23,8 +23,22 @@ concurrency:
     || github.run_id }}-${{ inputs.image_flavor }}.iso
   cancel-in-progress: true
 jobs:
+  get-images:
+    name: Get Images for Build
+    outputs:
+      images: ${{ steps.images.outputs.images }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get Images for Build
+        id: images
+        uses: ./.github/actions/get-images
+        with:
+          image_flavor: ${{ inputs.image_flavor }}
   build-iso:
-    name: Build ${{ inputs.image_flavor }} ISOs
+    name: Build ${{ inputs.image_flavor }} ISOs (${{ matrix.image }})
+    needs: get-images
     outputs:
       url: ${{ steps.url.outputs.url }}
     runs-on: ubuntu-latest
@@ -34,10 +48,13 @@ jobs:
       id-token: write
     strategy:
       fail-fast: false
+      matrix:
+        image: ["${{ fromJson(needs.get-images.outputs.images) }}"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - uses: extractions/setup-just@v2
+      - name: Install Just
+        uses: ./.github/actions/install-just
       - name: Maximize Build Space
         if: >-
           contains(fromJson('["workflow_dispatch", "workflow_call"]'),
@@ -49,7 +66,7 @@ jobs:
           github.event_name) || github.event.schedule == '41 6 * * 0'
         shell: bash
         run: |
-          sudo just build-iso ${{ inputs.image_flavor }} 1 1
+          sudo just build-iso ${{ matrix.image }} 1 1
           tree "./${{ env.IMAGE_NAME }}_build/output/"
       - name: Upload ISOs and Checksum to Job Artifacts
         id: upload
@@ -58,7 +75,7 @@ jobs:
           contains(fromJson('["workflow_dispatch", "workflow_call"]'),
           github.event_name) || github.event.schedule == '41 6 * * 0'
         with:
-          name: ${{ inputs.image_flavor }}-iso
+          name: ${{ matrix.image }}-iso
           path: |
             ./${{ env.IMAGE_NAME }}_build/output/
           if-no-files-found: warn
@@ -70,12 +87,15 @@ jobs:
         id: url
         run: |
           case "${{ inputs.image_flavor }}" in
-          "desktop")
+          "Bazzite")
+            upload="bazzite"
+            ;;
+          "Desktop")
             upload="stable"
             ;;
           esac
-          echo "|[${{ inputs.image_flavor }}](${{ env.ARTIFACT-URL }})|" \
-            > url-${upload}-${{ inputs.image_flavor }}.txt
+          echo "|[${{ matrix.image }}](${{ env.ARTIFACT-URL }})|" \
+            > url-${upload}-${{ matrix.image }}.txt
           echo "url=${upload}" >> $GITHUB_OUTPUT
         env:
           ARTIFACT-URL: ${{ steps.upload.outputs.artifact-url }}
@@ -83,8 +103,8 @@ jobs:
         id: upload-url
         uses: actions/upload-artifact@v4
         with:
-          name: url-${{ steps.url.outputs.url }}-${{ inputs.image_flavor }}
-          path: url-${{ steps.url.outputs.url }}-${{ inputs.image_flavor }}.txt
+          name: url-${{ steps.url.outputs.url }}-${{ matrix.image }}
+          path: url-${{ steps.url.outputs.url }}-${{ matrix.image }}.txt
           if-no-files-found: error
           retention-days: 0
           compression-level: 0
@@ -96,4 +116,3 @@ jobs:
     needs: build-iso
     with:
       target: ${{ needs.build-iso.outputs.url }}
-

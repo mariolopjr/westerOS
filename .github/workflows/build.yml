@@ -1,8 +1,9 @@
 ---
 name: Build westerOS
-on:
+on:  # yamllint disable-line rule:truthy
   schedule:
-    - cron: "42 6 * * 0"  # 6:42a UTC everyday
+    - cron: "42 6 * * 0"  # 6:42 UTC Sunday
+    - cron: "42 6 * * 1,2,3,4,5,6"  # 6:42 UTC Monday-Saturday
   push:
     branches:
       - main
@@ -16,8 +17,12 @@ permissions:
   packages: write
   id-token: write
 jobs:
+  lint:
+    name: Lint Project
+    uses: ./.github/workflows/lint.yml
   build-image:
     name: Build Images
+    needs: [lint]
     uses: ./.github/workflows/build-image.yml
     secrets: inherit
     strategy:
@@ -34,7 +39,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image_flavor: ["desktop", "server"]
+        image_flavor: ["desktop"]
     with:
       image_flavor: ${{ matrix.image_flavor }}
   create-release:
