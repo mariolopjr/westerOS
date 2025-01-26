@@ -4,6 +4,7 @@ COPY build.sh /tmp/build.sh
 COPY desktop-1password.sh /tmp/desktop-1password.sh
 COPY desktop-packages.sh /tmp/desktop-packages.sh
 COPY remove-cliwrap.sh /tmp/remove-cliwrap.sh
+COPY remove-packages.sh /tmp/remove-packages.sh
 COPY shared/etc /etc
 
 RUN mkdir -p /var/lib/alternatives && \
