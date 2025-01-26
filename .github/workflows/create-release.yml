@@ -15,7 +15,7 @@ env:
 jobs:
   create-release:
     name: Create Release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -55,7 +55,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: >-
           contains(fromJson('["workflow_dispatch", "merge_group"]'),
-
             github.event_name)
           || github.event.schedule == '41 6 * * 0'
         with:

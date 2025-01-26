@@ -19,7 +19,7 @@ on:  # yamllint disable-line rule:truthy
         type: string
 jobs:
   generate-release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout last 500 commits (for <commits> to work)
         uses: actions/checkout@v4

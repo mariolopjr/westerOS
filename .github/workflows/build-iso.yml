@@ -27,7 +27,7 @@ jobs:
     name: Get Images for Build
     outputs:
       images: ${{ steps.images.outputs.images }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -87,11 +87,8 @@ jobs:
         id: url
         run: |
           case "${{ inputs.image_flavor }}" in
-          "Bazzite")
+          "desktop")
             upload="bazzite"
-            ;;
-          "Desktop")
-            upload="stable"
             ;;
           esac
           echo "|[${{ matrix.image }}](${{ env.ARTIFACT-URL }})|" \

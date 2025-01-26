@@ -36,6 +36,7 @@ PATTERN_PKGREL_CHANGED = "{prev} ➡️ {new}"
 PATTERN_PKGREL = "{version}"
 COMMON_PAT = "### All Images\n| | Name | Previous | New |\n| --- | --- | --- | --- |{changes}\n\n"
 DESKTOP_PAT = "### Desktop Images\n| | Name | Previous | New |\n| --- | --- | --- | --- |{changes}\n\n"
+BAZZITE_PAT = "### [Bazzite Images](https://bazzite.gg)\n| | Name | Previous | New |\n| --- | --- | --- | --- |{changes}\n\n"
 OTHER_NAMES = {
     # "cosmic": "### Cosmic Images\n| | Name | Previous | New |\n| --- | --- | --- | --- |{changes}\n\n",
     "ucore": "### Ucore Images\n| | Name | Previous | New |\n| --- | --- | --- | --- |{changes}\n\n",
@@ -276,15 +277,15 @@ def calculate_changes(pkgs: list[str], prev: dict[str, str], curr: dict[str, str
     changed = []
     removed = []
 
-    blacklist_ver = set([curr.get(v, None) for v in BLOCKLIST_VERSIONS])
+    blocklist_ver = set([curr.get(v, None) for v in BLOCKLIST_VERSIONS])
 
     for pkg in pkgs:
         # Clearup changelog by removing mentioned packages
         if pkg in BLOCKLIST_VERSIONS:
             continue
-        if pkg in curr and curr.get(pkg, None) in blacklist_ver:
+        if pkg in curr and curr.get(pkg, None) in blocklist_ver:
             continue
-        if pkg in prev and prev.get(pkg, None) in blacklist_ver:
+        if pkg in prev and prev.get(pkg, None) in blocklist_ver:
             continue
 
         if pkg not in prev:
@@ -294,8 +295,8 @@ def calculate_changes(pkgs: list[str], prev: dict[str, str], curr: dict[str, str
         elif prev[pkg] != curr[pkg]:
             changed.append(pkg)
 
-        blacklist_ver.add(curr.get(pkg, None))
-        blacklist_ver.add(prev.get(pkg, None))
+        blocklist_ver.add(curr.get(pkg, None))
+        blocklist_ver.add(prev.get(pkg, None))
 
     out = ""
     for pkg in added:
