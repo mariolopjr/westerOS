@@ -23,7 +23,8 @@ runs:
         case "${{ inputs.image_flavor }}" in
         "desktop")
           images+=("bazzite" "bazzite-nvidia")
-          images+=("cosmic" "cosmic-nvidia")
+          # need to address bootc lint error
+          # images+=("cosmic" "cosmic-nvidia")
           ;;
         "server")
           images+=("ucore")
