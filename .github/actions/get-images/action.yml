@@ -22,7 +22,7 @@ runs:
         # Add Images
         case "${{ inputs.image_flavor }}" in
         "desktop")
-          images+=("bazzite" "bazzite-nvidia")
+          images+=("bazzite-gnome" "bazzite-gnome-nvidia")
           # need to address bootc lint error
           # images+=("cosmic" "cosmic-nvidia")
           ;;
