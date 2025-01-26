@@ -9,11 +9,15 @@ from typing import Any
 
 REGISTRY = "docker://ghcr.io/mariolopjr/"
 
+# TODO: fix cosmic building
+# IMAGE_MATRIX = {
+#     "image": ["cosmic", "ucore"],
+#     "image_flavor": ["main", "nvidia"],
+# }
 IMAGE_MATRIX = {
-    "image": ["cosmic", "ucore"],
+    "image": ["ucore"],
     "image_flavor": ["main", "nvidia"],
 }
-
 BAZZITE_IMAGE_MATRIX = {
     "image": ["bazzite-gnome"],
     "image_flavor": ["main", "nvidia"]
@@ -33,7 +37,7 @@ PATTERN_PKGREL = "{version}"
 COMMON_PAT = "### All Images\n| | Name | Previous | New |\n| --- | --- | --- | --- |{changes}\n\n"
 DESKTOP_PAT = "### Desktop Images\n| | Name | Previous | New |\n| --- | --- | --- | --- |{changes}\n\n"
 OTHER_NAMES = {
-    "cosmic": "### Cosmic Images\n| | Name | Previous | New |\n| --- | --- | --- | --- |{changes}\n\n",
+    # "cosmic": "### Cosmic Images\n| | Name | Previous | New |\n| --- | --- | --- | --- |{changes}\n\n",
     "ucore": "### Ucore Images\n| | Name | Previous | New |\n| --- | --- | --- | --- |{changes}\n\n",
     "nvidia": "### Nvidia Images\n| | Name | Previous | New |\n| --- | --- | --- | --- |{changes}\n\n",
 }
@@ -82,7 +86,7 @@ def get_images(target: str):
     for image, image_flavor in product(*matrix.values()):
         img = image
 
-        if not image == "bazzite" and image_flavor == "nvidia":
+        if not image == "ucore" and image_flavor == "nvidia":
             img += "-nvidia"
 
         yield img, image, image_flavor
@@ -195,7 +199,7 @@ def get_package_groups(target: str, prev: dict[str, Any], manifests: dict[str, A
     # Desktop common packages
     first = True
     for img, image, image_flavor in get_images(target):
-        if image not in ["aurora", "bluefin", "cosmic"]:
+        if image not in ["cosmic"]:
             continue
         if img not in pkg:
             continue
@@ -238,10 +242,6 @@ def get_package_groups(target: str, prev: dict[str, Any], manifests: dict[str, A
             if t == "main" and "main" not in image_flavor:
                 continue
             if t == "nvidia" and "nvidia" not in image_flavor:
-                continue
-            if t == "aurora" and image != "aurora":
-                continue
-            if t == "bluefin" and image != "bluefin":
                 continue
             if t == "cosmic" and image != "cosmic":
                 continue
