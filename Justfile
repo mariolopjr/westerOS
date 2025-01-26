@@ -2,7 +2,8 @@ repo_image_name := "westeros"
 repo_name := "mariolopjr"
 username := "mario"
 images := '(
-    [bazzite]="bazzite-gnome-nvidia"
+    [bazzite]="bazzite-gnome"
+    [bazzite-nvidia]="bazzite-gnome-nvidia"
     [cosmic]="cosmic"
     [cosmic-nvidia]="cosmic-nvidia"
     [ucore]="stable"
@@ -128,7 +129,7 @@ build image="bazzite":
 
 # Rechunk Image
 [private]
-rechunk image="bluefin":
+rechunk image="bazzite":
     #!/usr/bin/env bash
     echo "::group:: Rechunk Build Prep"
     set ${SET_X:+-x} -eou pipefail
@@ -550,5 +551,5 @@ _lint-recipe linter recipe *args:
 lint-recipes:
     #!/usr/bin/bash
     for recipe in build rechunk build-iso run-iso; do
-        just _lint-recipe "shellcheck -e SC2050,SC2194" "${recipe}" bluefin
+        just _lint-recipe "shellcheck -e SC2050,SC2194" "${recipe}" bazzite
     done

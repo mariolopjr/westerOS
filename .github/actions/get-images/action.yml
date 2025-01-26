@@ -22,8 +22,8 @@ runs:
         # Add Images
         case "${{ inputs.image_flavor }}" in
         "desktop")
-          images+=("bazzite-gnome-nvidia")
-          images+=("cosmic-nvidia")
+          images+=("bazzite-gnome" "bazzite-gnome-nvidia")
+          images+=("cosmic" "cosmic-nvidia")
           ;;
         "server")
           images+=("ucore")
