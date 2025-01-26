@@ -1,5 +1,5 @@
 ---
-name: Build westeros
+name: Build westerOS
 on:
   schedule:
     - cron: "42 6 * * 0"  # 6:42a UTC everyday
