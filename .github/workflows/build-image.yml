@@ -124,7 +124,7 @@ jobs:
   check:
     name: Check Build ${{ inputs.image_flavor }} Images Successful
     if: ${{ !cancelled() }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [build-image]
     steps:
       - name: Exit on failure
