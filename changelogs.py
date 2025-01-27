@@ -19,7 +19,7 @@ IMAGE_MATRIX = {
     "image_flavor": ["main", "nvidia"],
 }
 BAZZITE_IMAGE_MATRIX = {
-    "image": ["bazzite-gnome"],
+    "image": ["bazzite"],
     "image_flavor": ["main", "nvidia"]
 }
 
