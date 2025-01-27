@@ -376,7 +376,7 @@ build-iso image="bazzite" ghcr="0" clean="0":
     iso_build_args+=(IMAGE_TAG="{{ image }}")
     iso_build_args+=(ISO_NAME="/github/workspace/{{ repo_image_name }}_build/output/{{ image }}.iso")
     iso_build_args+=(SECURE_BOOT_KEY_URL="https://github.com/ublue-os/akmods/raw/main/certs/public_key.der")
-    iso_build_args+=(VARIANT="Kinoite")
+    iso_build_args+=(VARIANT="Silverblue")
     iso_build_args+=(VERSION="$VERSION")
     iso_build_args+=(WEB_UI="false")
     # Build ISO
