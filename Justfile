@@ -316,14 +316,17 @@ build-iso image="bazzite" ghcr="0" clean="0":
     ADDITIONAL_FLATPAKS=(
         app/com.discordapp.Discord/x86_64/stable
         app/org.libreoffice.LibreOffice/x86_64/stable
+        app/org.gnome.World.PikaBackup/x86_64/stable
     )
-    if [[ "{{ image }}" =~ cosmic ]]; then
-        ADDITIONAL_FLATPAKS+=(
-            app/org.gnome.World.PikaBackup/x86_64/stable
-        )
-    fi
+    # no extra flatpaks needed for cosmic
+    # if [[ "{{ image }}" =~ cosmic ]]; then
+    #     ADDITIONAL_FLATPAKS+=(
+    #     )
+    # fi
     if [[ "{{ image }}" =~ bazzite ]]; then
-        ADDITIONAL_FLATPAKS+=(app/org.gnome.World.PikaBackup/x86_64/stable)
+        ADDITIONAL_FLATPAKS+=(
+            app/fm.reaper.Reaper/x86_64/stable
+        )
     fi
     FLATPAK_REFS=()
     while IFS= read -r line; do
