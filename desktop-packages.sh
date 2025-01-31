@@ -13,7 +13,8 @@ dnf5 -y copr enable ublue-os/staging
 # TODO: add udica: https://github.com/containers/udica
 dnf5 install -y \
     ghostty \
-    jetbrains-mono-fonts-all
+    jetbrains-mono-fonts-all \
+    flatpak-builder
 
 # only the packages above should come from testing
 dnf5 -y copr disable ublue-os/staging
