@@ -14,7 +14,8 @@ dnf5 -y copr enable ublue-os/staging
 dnf5 install -y \
     ghostty \
     jetbrains-mono-fonts-all \
-    flatpak-builder
+    flatpak-builder \
+    neovim
 
 # only the packages above should come from testing
 dnf5 -y copr disable ublue-os/staging
