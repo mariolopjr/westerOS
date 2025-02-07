@@ -26,7 +26,7 @@ dnf5 install -y \
 dnf5 -y copr disable ublue-os/staging
 
 # install opensnitch
-curl -LO https://github.com/evilsocket/opensnitch/releases/download/v${OPENSNITCH_UI_VER}/gustavo_iniguez_goia.asc -LO https://github.com/evilsocket/opensnitch/releases/download/v${OPENSNITCH_VER}/opensnitch-${OPENSNITCH_VER}-1.x86_64.rpm -LO https://github.com/evilsocket/opensnitch/releases/download/v${OPENSNITCH_VER}/opensnitch-ui-${OPENSNITCH_VER}-1.noarch.rpm
+curl -LO https://github.com/evilsocket/opensnitch/releases/download/v${OPENSNITCH_VER}/gustavo_iniguez_goia.asc -LO https://github.com/evilsocket/opensnitch/releases/download/v${OPENSNITCH_VER}/opensnitch-${OPENSNITCH_VER}-1.x86_64.rpm -LO https://github.com/evilsocket/opensnitch/releases/download/v${OPENSNITCH_UI_VER}/opensnitch-ui-${OPENSNITCH_UI_VER}-1.noarch.rpm
 
 rpm --import gustavo_iniguez_goia.asc
 
