@@ -314,18 +314,14 @@ build-iso image="bazzite" ghcr="0" clean="0":
     esac
     curl -Lo "${FLATPAK_REFS_DIR_ABS}"/flatpaks.txt "${FLATPAK_LIST_URL}"
     ADDITIONAL_FLATPAKS=(
-        app/com.discordapp.Discord/x86_64/stable
-        app/org.libreoffice.LibreOffice/x86_64/stable
         app/org.gnome.World.PikaBackup/x86_64/stable
     )
-    # no extra flatpaks needed for cosmic
-    # if [[ "{{ image }}" =~ cosmic ]]; then
-    #     ADDITIONAL_FLATPAKS+=(
-    #     )
-    # fi
+    if [[ "{{ image }}" =~ cosmic ]]; then
+        ADDITIONAL_FLATPAKS+=(
+        )
+    fi
     if [[ "{{ image }}" =~ bazzite ]]; then
         ADDITIONAL_FLATPAKS+=(
-            app/fm.reaper.Reaper/x86_64/stable
         )
     fi
     FLATPAK_REFS=()
