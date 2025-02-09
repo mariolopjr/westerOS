@@ -56,7 +56,7 @@ jobs:
         if: >-
           contains(fromJson('["workflow_dispatch", "merge_group"]'),
             github.event_name)
-          || github.event.schedule == '41 6 * * 0'
+          || github.event.schedule == '42 6 * * 0'
         with:
           name: ${{ steps.prepare-release.outputs.title }}
           tag_name: ${{ steps.prepare-release.outputs.tag }}
